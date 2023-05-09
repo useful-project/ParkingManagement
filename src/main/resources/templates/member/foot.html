@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="footer-bottom gray-bg-3 pt-17 pb-15">
+    <div class="container">
+        <div class="row" id="appfoot">
+            <div class="col-12">
+                <div class="copyright text-center">
+                    <p>Copyright (c) <a href="../admin/login" target="_blank">{{sessioncopyright}}</a> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+
+    var qs = Qs
+    var vuefoot = new Vue({
+        el: "#appfoot",
+        data: {
+            sessioncopyright:'',
+        },
+
+        created(){
+            this.getsite()
+        },
+        methods: {
+            getsite(){
+                axios.post('../site/get', qs.stringify({
+                    id:1,
+                })).then(res => {
+                    sessionStorage.setItem("sessionsite",JSON.stringify(res.data.data))
+                    this.sessioncopyright1 = JSON.parse(sessionStorage.getItem('sessionsite'))
+                    this.sessioncopyright = this.sessioncopyright1.copyright
+                }).catch(error => {
+                })
+            },
+
+
+        }
+
+
+    })
+
+
+
+</script>
+
+</body>
+</html>

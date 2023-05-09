@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.MemberDAO">
+    <!-- 结果集 -->
+    <resultMap type="com.it.entity.Member" id="MemberMap">
+        <result property="id" column="id"/>
+        <result property="uname" column="uname"/>
+        <result property="upass" column="upass"/>
+        <result property="tname" column="tname"/>
+        <result property="filename" column="filename"/>
+        <result property="tel" column="tel"/>
+        <result property="audit" column="audit"/>
+        <result property="status" column="status"/>
+        <result property="wallet" column="wallet"/>
+
+    </resultMap>
+
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        *
+    </sql>
+
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="MemberMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member
+        where id = #{id}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="MemberMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="MemberMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="uname != null and uname != ''">
+                and uname = #{uname}
+            </if>
+            <if test="upass != null and upass != ''">
+                and upass = #{upass}
+            </if>
+            <if test="tname != null and tname != ''">
+                and tname = #{tname}
+            </if>
+            <if test="filename != null and filename != ''">
+                and filename = #{filename}
+            </if>
+            <if test="audit != null and audit != ''">
+                and audit = #{audit}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="key != null and key != ''">
+                and tname like "%"#{key}"%"
+            </if>
+            <if test="tel != null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="wallet != null">
+                and wallet = #{wallet}
+            </if>
+
+        </where>
+        order by id desc
+    </select>
+
+    <!-- 新增所有列 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into member(id, uname, upass, tname, filename, tel, audit, status, wallet)
+        values ( #{id}, #{uname}, #{upass}, #{tname}, #{filename}, #{tel}, #{audit}, #{status}, #{wallet})
+    </insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into member(id, uname, upass, tname, filename, tel)
+        values
+        <foreach collection="members" item="item" index="index" separator=",">
+            (
+            #{item.id}, #{item.uname}, #{item.upass}, #{item.tname}, #{item.filename}, #{item.tel} )
+        </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update parkinglotwebsite_db.member
+        <set>
+            <if test="uname != null and uname != ''">
+                uname = #{uname},
+            </if>
+            <if test="upass != null and upass != ''">
+                upass = #{upass},
+            </if>
+            <if test="tname != null and tname != ''">
+                tname = #{tname},
+            </if>
+            <if test="filename != null and filename != ''">
+                filename = #{filename},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel = #{tel},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="audit != null and audit != ''">
+                audit = #{audit},
+            </if>
+            <if test="wallet != null">
+                wallet = #{wallet},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from member where id = #{id}
+    </delete>
+
+    <!-- 总数 -->
+    <select id="count" resultType="int">
+        select count(*) from member
+    </select>
+</mapper>

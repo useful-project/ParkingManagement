@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.StoprecordDAO">
+    <!-- 结果集 -->
+    <resultMap type="com.it.entity.Stoprecord" id="StoprecordMap">
+        <result property="id" column="id"/>
+        <result property="ddno" column="ddno"/>
+        <result property="memberid" column="memberid"/>
+        <result property="carportid" column="carportid"/>
+        <result property="carno" column="carno"/>
+        <result property="stime" column="stime"/>
+        <result property="etime" column="etime"/>
+        <result property="longtime" column="longtime"/>
+        <result property="total" column="total"/>
+        <result property="status" column="status"/>
+        <result property="categoryid" column="categoryid"/>
+
+    </resultMap>
+
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        *
+    </sql>
+
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="StoprecordMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stoprecord
+        where id = #{id}
+    </select>
+
+
+
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="StoprecordMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stoprecord
+        order by id desc
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="StoprecordMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stoprecord
+        <where>
+            <if test="key!=null and key!=''">
+                and carno like "%"#{key}"%" or memberid in (select id from member where tname like "%"#{key}"%")
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="ddno != null and ddno != ''">
+                and ddno = #{ddno}
+            </if>
+            <if test="memberid != null">
+                and memberid = #{memberid}
+            </if>
+            <if test="carportid != null">
+                and carportid = #{carportid}
+            </if>
+            <if test="carno != null and carno != ''">
+                and carno = #{carno}
+            </if>
+            <if test="stime != null and stime != ''">
+                and stime = #{stime}
+            </if>
+            <if test="etime != null and etime != ''">
+                and etime = #{etime}
+            </if>
+            <if test="longtime != null">
+                and longtime = #{longtime}
+            </if>
+            <if test="total != null">
+                and total = #{total}
+            </if>
+            <if test="categoryid != null">
+                and categoryid = #{categoryid}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!-- 新增所有列 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into stoprecord(id, ddno, memberid, carportid, carno, stime, etime, longtime, total, status , categoryid)
+        values ( #{id}, #{ddno}, #{memberid}, #{carportid}, #{carno}, #{stime}, #{etime}, #{longtime}, #{total}, #{status} , #{categoryid})
+    </insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into stoprecord(id, ddno, memberid, carportid, carno, stime, etime, longtime, total, status)
+        values
+        <foreach collection="stoprecords" item="item" index="index" separator=",">
+            (
+            #{item.id}, #{item.ddno}, #{item.memberid}, #{item.carportid}, #{item.carno}, #{item.stime}, #{item.etime},
+            #{item.longtime}, #{item.total}, #{item.status} )
+        </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update parkinglotwebsite_db.stoprecord
+        <set>
+            <if test="ddno != null and ddno != ''">
+                ddno = #{ddno},
+            </if>
+            <if test="memberid != null">
+                memberid = #{memberid},
+            </if>
+            <if test="carportid != null">
+                carportid = #{carportid},
+            </if>
+            <if test="carno != null and carno != ''">
+                carno = #{carno},
+            </if>
+            <if test="stime != null and stime != ''">
+                stime = #{stime},
+            </if>
+            <if test="etime != null and etime != ''">
+                etime = #{etime},
+            </if>
+            <if test="longtime != null">
+                longtime = #{longtime},
+            </if>
+            <if test="total != null">
+                total = #{total},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from stoprecord where id = #{id}
+    </delete>
+
+    <!-- 总数 -->
+    <select id="count" resultType="int">
+        select count(*) from stoprecord
+    </select>
+
+    <select id="tj1" resultMap="StoprecordMap">
+      select COUNT(*) as memberid ,DATE_FORMAT(stime,'%Y-%m-%d') as stime from stoprecord GROUP BY DATE_FORMAT(stime,'%Y-%m-%d')
+    </select>
+
+
+</mapper>

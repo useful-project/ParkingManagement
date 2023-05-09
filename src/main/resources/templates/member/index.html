@@ -1,0 +1,713 @@
+﻿<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>停车库管理系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+    <!-- all css here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/meanmenu.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="../css/element_ui.css">
+
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+<header class="header-area">
+    <div id="iframetop"></div>
+    <!--<div class="header-top theme-bg">-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--<div class="col-lg-4 col-md-4 col-12">-->
+    <!--<div class="welcome-area">-->
+    <!--<p>Default welcome msg! </p>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-lg-8 col-md-8 col-12">-->
+    <!--<div class="account-curr-lang-wrap f-right">-->
+    <!--<ul>-->
+    <!--<li class="top-hover"><a href="#">$Doller (US) <i class="icon-arrow-down"></i></a>-->
+    <!--<ul>-->
+    <!--<li><a href="#">Taka (BDT)</a></li>-->
+    <!--<li><a href="#">Riyal (SAR)</a></li>-->
+    <!--<li><a href="#">Rupee (INR)</a></li>-->
+    <!--<li><a href="#">Dirham (AED)</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="#"><img alt="flag" src="assets/img/icon-img/en.jpg"> English  <i class="icon-arrow-down"></i></a>-->
+    <!--<ul>-->
+    <!--<li><a href="#"><img alt="flag" src="assets/img/icon-img/bl.jpg">Bangla </a></li>-->
+    <!--<li><a href="#"><img alt="flag" src="assets/img/icon-img/ar.jpg">Arabic</a></li>-->
+    <!--<li><a href="#"><img alt="flag" src="assets/img/icon-img/in.jpg">Hindi </a></li>-->
+    <!--<li><a href="#"><img alt="flag" src="assets/img/icon-img/sp.jpg">Spanish</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="header-bottom transparent-bar">-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--<div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-5">-->
+    <!--<div class="logo pt-39">-->
+    <!--<a href="index.html"><img alt="" src="assets/img/logo/logo.png"></a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-xl-8 col-lg-7 d-none d-lg-block">-->
+    <!--<div class="main-menu text-center">-->
+    <!--<nav>-->
+    <!--<ul>-->
+    <!--<li><a href="index.html">HOME</a>-->
+    <!--<ul class="submenu">-->
+    <!--<li>-->
+    <!--<a href="index.html">home version 1</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="index-2.html">home version 2</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li class="mega-menu-position"><a href="shop-page.html">Food</a>-->
+    <!--<ul class="mega-menu">-->
+    <!--<li>-->
+    <!--<ul>-->
+    <!--<li class="mega-menu-title">Dogs Food</li>-->
+    <!--<li><a href="shop-page.html">Eggs</a></li>-->
+    <!--<li><a href="shop-page.html">Carrots</a></li>-->
+    <!--<li><a href="shop-page.html">Salmon fishs</a></li>-->
+    <!--<li><a href="shop-page.html">Peanut Butter</a></li>-->
+    <!--<li><a href="shop-page.html">Grapes & Raisins</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<ul>-->
+    <!--<li class="mega-menu-title">Cats Food</li>-->
+    <!--<li><a href="shop-page.html">Meat</a></li>-->
+    <!--<li><a href="shop-page.html">Fish</a></li>-->
+    <!--<li><a href="shop-page.html">Eggs</a></li>-->
+    <!--<li><a href="shop-page.html">Veggies</a></li>-->
+    <!--<li><a href="shop-page.html">Cheese</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<ul>-->
+    <!--<li class="mega-menu-title">Fishs Food</li>-->
+    <!--<li><a href="shop-page.html">Rice</a></li>-->
+    <!--<li><a href="shop-page.html">Veggies</a></li>-->
+    <!--<li><a href="shop-page.html">Cheese</a></li>-->
+    <!--<li><a href="shop-page.html">wheat bran</a></li>-->
+    <!--<li><a href="shop-page.html">Cultivation</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<ul>-->
+    <!--<li><a href="shop-page.html"><img alt="" src="assets/img/banner/menu-img-4.jpg"></a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="#">PAGES</a>-->
+    <!--<ul class="submenu">-->
+    <!--<li>-->
+    <!--<a href="about-us.html">about us</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="shop-page.html">shop page</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="shop-list.html">shop list</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="product-details.html">product details</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="cart.html">cart page</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="checkout.html">checkout</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="wishlist.html">wishlist</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="contact.html">contact us</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="my-account.html">my account</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="login-register.html">login / register</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="blog-leftsidebar.html">Blog</a>-->
+    <!--<ul class="submenu">-->
+    <!--<li>-->
+    <!--<a href="blog.html">blog page</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="blog-leftsidebar.html">blog left sidebar</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="blog-details.html">blog details</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="about-us.html">ABOUT</a></li>-->
+    <!--<li><a href="contact.html">contact us</a></li>-->
+    <!--</ul>-->
+    <!--</nav>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-xl-2 col-lg-2 col-md-8 col-sm-8 col-7">-->
+    <!--<div class="search-login-cart-wrapper">-->
+    <!--<div class="header-search same-style">-->
+    <!--<button class="search-toggle">-->
+    <!--<i class="icon-magnifier s-open"></i>-->
+    <!--<i class="ti-close s-close"></i>-->
+    <!--</button>-->
+    <!--<div class="search-content">-->
+    <!--<form action="#">-->
+    <!--<input type="text" placeholder="Search">-->
+    <!--<button>-->
+    <!--<i class="icon-magnifier"></i>-->
+    <!--</button>-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="header-login same-style">-->
+    <!--<a href="login-register.html"><i class="icon-user icons"></i></a>-->
+    <!--</div>-->
+    <!--<div class="header-cart same-style">-->
+    <!--<button class="icon-cart">-->
+    <!--<i class="icon-handbag"></i>-->
+    <!--<span class="count-style">02</span>-->
+    <!--</button>-->
+    <!--<div class="shopping-cart-content">-->
+    <!--<ul>-->
+    <!--<li class="single-shopping-cart">-->
+    <!--<div class="shopping-cart-img">-->
+    <!--<a href="#"><img alt="" src="assets/img/cart/cart-1.jpg"></a>-->
+    <!--</div>-->
+    <!--<div class="shopping-cart-title">-->
+    <!--<h4><a href="#">Dog Calcium Food </a></h4>-->
+    <!--<h6>Qty: 02</h6>-->
+    <!--<span>$260.00</span>-->
+    <!--</div>-->
+    <!--<div class="shopping-cart-delete">-->
+    <!--<a href="#"><i class="ti-close"></i></a>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--<li class="single-shopping-cart">-->
+    <!--<div class="shopping-cart-img">-->
+    <!--<a href="#"><img alt="" src="assets/img/cart/cart-2.jpg"></a>-->
+    <!--</div>-->
+    <!--<div class="shopping-cart-title">-->
+    <!--<h4><a href="#">Dog Calcium Food</a></h4>-->
+    <!--<h6>Qty: 02</h6>-->
+    <!--<span>$260.00</span>-->
+    <!--</div>-->
+    <!--<div class="shopping-cart-delete">-->
+    <!--<a href="#"><i class="ti-close"></i></a>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--<div class="shopping-cart-total">-->
+    <!--<h4>Shipping : <span>$20.00</span></h4>-->
+    <!--<h4>Total : <span class="shop-total">$260.00</span></h4>-->
+    <!--</div>-->
+    <!--<div class="shopping-cart-btn">-->
+    <!--<a href="cart.html">view cart</a>-->
+    <!--<a href="checkout.html">checkout</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="mobile-menu-area electro-menu d-md-block col-md-12 col-lg-12 col-12 d-lg-none d-xl-none">-->
+    <!--<div class="mobile-menu">-->
+    <!--<nav id="mobile-menu-active">-->
+    <!--<ul class="menu-overflow">-->
+    <!--<li><a href="#">HOME</a>-->
+    <!--<ul>-->
+    <!--<li><a href="index.html">home version 1</a></li>-->
+    <!--<li><a href="index-2.html">home version 2</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="#">pages</a>-->
+    <!--<ul>-->
+    <!--<li>-->
+    <!--<a href="about-us.html">about us</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="shop-page.html">shop page</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="shop-list.html">shop list</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="product-details.html">product details</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="cart.html">cart page</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="checkout.html">checkout</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="wishlist.html">wishlist</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="contact.html">contact us</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="my-account.html">my account</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="login-register.html">login / register</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="#">Food</a>-->
+    <!--<ul>-->
+    <!--<li><a href="#">Dogs Food</a>-->
+    <!--<ul>-->
+    <!--<li><a href="shop-page.html">Grapes and Raisins</a></li>-->
+    <!--<li><a href="shop-page.html">Carrots</a></li>-->
+    <!--<li><a href="shop-page.html">Peanut Butter</a></li>-->
+    <!--<li><a href="shop-page.html">Salmon fishs</a></li>-->
+    <!--<li><a href="shop-page.html">Eggs</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="#">Cats Food</a>-->
+    <!--<ul>-->
+    <!--<li><a href="shop-page.html">Meat</a></li>-->
+    <!--<li><a href="shop-page.html">Fish</a></li>-->
+    <!--<li><a href="shop-page.html">Eggs</a></li>-->
+    <!--<li><a href="shop-page.html">Veggies</a></li>-->
+    <!--<li><a href="shop-page.html">Cheese</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="#">Fishs Food</a>-->
+    <!--<ul>-->
+    <!--<li><a href="shop-page.html">Rice</a></li>-->
+    <!--<li><a href="shop-page.html">Veggies</a></li>-->
+    <!--<li><a href="shop-page.html">Cheese</a></li>-->
+    <!--<li><a href="shop-page.html">wheat bran</a></li>-->
+    <!--<li><a href="shop-page.html">Cultivation</a></li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="#">blog</a>-->
+    <!--<ul>-->
+    <!--<li>-->
+    <!--<a href="blog.html">blog page</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="blog-leftsidebar.html">blog left sidebar</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="blog-details.html">blog details</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li><a href="contact.html"> Contact us </a></li>-->
+    <!--</ul>-->
+    <!--</nav>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+</header>
+
+
+
+<div id="app">
+    <div class="slider-area">
+
+        <template>
+            <el-carousel height="500px" :interval="5000" arrow="always">
+                <el-carousel-item v-for="imgadv in imgadvlist" :key="imgadv.id">
+                    <a :href="imgadv.url"><img :src="['../upload/'+imgadv.filename]" style="width: 100%"></a>
+                </el-carousel-item>
+            </el-carousel>
+        </template>
+    </div>
+
+    <div class="blog-area pb-70">
+        <div class="container">
+            <div class="section-title text-center mb-60">
+                <h4>&nbsp;</h4>
+                <h2>最新公告</h2>
+            </div>
+            <div class="row">
+
+
+                <div v-for="(news,i) in newslist" v-if="i<3" class="col-lg-4 col-md-6">
+                    <div class="blog-wrapper mb-30 gray-bg">
+                        <div class="blog-img hover-effect">
+                            <a :href="['toNewsDetails?id='+news.id]">
+                                <img alt="" :src="['../upload/'+news.filename]" style="height:354px;">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <ul>
+                                    <li>来自: <span>Admin</span></li>
+                                    <li v-html="news.savetime">Sep 14, 2018</li>
+                                </ul>
+                            </div>
+                            <h4><a :href="['toNewsDetails?id='+news.id]" v-html="news.title">Lorem ipsum dolor
+                                amet cons adipisicing elit</a></h4>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!--<div class="food-category food-category-col pt-100 pb-60">-->
+<!--<div class="container">-->
+<!--<div class="row">-->
+<!--<div class="col-lg-4 col-md-4">-->
+<!--<div class="single-food-category cate-padding-1 text-center mb-30">-->
+<!--<div class="single-food-hover-2">-->
+<!--<img src="assets/img/product/product-1.jpg" alt="">-->
+<!--</div>-->
+<!--<div class="single-food-content">-->
+<!--<h3>Dogs Food</h3>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-lg-4 col-md-4">-->
+<!--<div class="single-food-category cate-padding-2 text-center mb-30">-->
+<!--<div class="single-food-hover-2">-->
+<!--<img src="assets/img/product/product-2.jpg" alt="">-->
+<!--</div>-->
+<!--<div class="single-food-content">-->
+<!--<h3>Cats Food</h3>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-lg-4 col-md-4">-->
+<!--<div class="single-food-category cate-padding-3 text-center mb-30">-->
+<!--<div class="single-food-hover-2">-->
+<!--<img src="assets/img/product/product-3.jpg" alt="">-->
+<!--</div>-->
+<!--<div class="single-food-content">-->
+<!--<h3>Fishs Food</h3>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="footer-area">
+    <div id="iframefoot"></div>
+
+    <!--<div class="footer-bottom gray-bg-3 pt-17 pb-15">-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--<div class="col-12">-->
+    <!--<div class="copyright text-center">-->
+    <!--<p>Copyright (c) <a href="http://www.sucai8.cn/">Marten</a> All Right Reserved.</p>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- modal -->
+<!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">-->
+    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+        <!--<span class="ti-close" aria-hidden="true"></span>-->
+    <!--</button>-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-body">-->
+                <!--<div class="qwick-view-left">-->
+                    <!--<div class="quick-view-learg-img">-->
+                        <!--<div class="quick-view-tab-content tab-content">-->
+                            <!--<div class="tab-pane active show fade" id="modal1" role="tabpanel">-->
+                                <!--<img src="assets/img/quick-view/l1.jpg" alt="">-->
+                            <!--</div>-->
+                            <!--<div class="tab-pane fade" id="modal2" role="tabpanel">-->
+                                <!--<img src="assets/img/quick-view/l2.jpg" alt="">-->
+                            <!--</div>-->
+                            <!--<div class="tab-pane fade" id="modal3" role="tabpanel">-->
+                                <!--<img src="assets/img/quick-view/l3.jpg" alt="">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="quick-view-list nav" role="tablist">-->
+                        <!--<a class="active" href="#modal1" data-toggle="tab">-->
+                            <!--<img src="assets/img/quick-view/s1.jpg" alt="">-->
+                        <!--</a>-->
+                        <!--<a href="#modal2" data-toggle="tab" role="tab">-->
+                            <!--<img src="assets/img/quick-view/s2.jpg" alt="">-->
+                        <!--</a>-->
+                        <!--<a href="#modal3" data-toggle="tab" role="tab">-->
+                            <!--<img src="assets/img/quick-view/s3.jpg" alt="">-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="qwick-view-right">-->
+                    <!--<div class="qwick-view-content">-->
+                        <!--<h3>Dog Calcium Food</h3>-->
+                        <!--<div class="product-price">-->
+                            <!--<span class="new">$20.00 </span>-->
+                            <!--<span class="old">$50.00</span>-->
+                        <!--</div>-->
+                        <!--<div class="product-rating">-->
+                            <!--<i class="icon-star theme-color"></i>-->
+                            <!--<i class="icon-star theme-color"></i>-->
+                            <!--<i class="icon-star theme-color"></i>-->
+                            <!--<i class="icon-star"></i>-->
+                            <!--<i class="icon-star"></i>-->
+                        <!--</div>-->
+                        <!--<p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do amt tempor incididun ut labore et-->
+                            <!--dolore magna aliqua. Ut enim ad mi , quis nostrud veniam exercitation .</p>-->
+                        <!--<div class="quick-view-select">-->
+                            <!--<div class="select-option-part">-->
+                                <!--<label>Size*</label>-->
+                                <!--<select class="select">-->
+                                    <!--<option value="">- Please Select -</option>-->
+                                    <!--<option value="">XS</option>-->
+                                    <!--<option value="">S</option>-->
+                                    <!--<option value="">M</option>-->
+                                    <!--<option value=""> L</option>-->
+                                    <!--<option value="">XL</option>-->
+                                    <!--<option value="">XXL</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--<div class="select-option-part">-->
+                                <!--<label>Color*</label>-->
+                                <!--<select class="select">-->
+                                    <!--<option value="">- Please Select -</option>-->
+                                    <!--<option value="">orange</option>-->
+                                    <!--<option value="">pink</option>-->
+                                    <!--<option value="">yellow</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="quickview-plus-minus">-->
+                            <!--<div class="cart-plus-minus">-->
+                                <!--<input type="text" value="2" name="qtybutton" class="cart-plus-minus-box">-->
+                            <!--</div>-->
+                            <!--<div class="quickview-btn-cart">-->
+                                <!--<a class="btn-style" href="#">add to cart</a>-->
+                            <!--</div>-->
+                            <!--<div class="quickview-btn-wishlist">-->
+                                <!--<a class="btn-hover" href="#"><i class="ti-heart"></i></a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<!-- all js here -->
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            imgadvlist:[],
+            newslist:[],
+            hotproductlist:[],//销售量排行
+        },
+        created(){
+            this.getimgadvlist()
+            this.getnewslist()
+            this.gethotproductlist()
+
+        },
+        methods: {
+
+            cartAdd(productid,kc) {
+                axios.post('checkLogin', qs.stringify({})).then(res => {
+                    if (res.data.status == 111) {
+                        location.replace("toLogin")
+                    } else {
+                        this.sessionmember = res.data.data
+
+                        axios.post('../cart/insert', qs.stringify({
+                            memberid: this.sessionmember.id,
+                            productid: productid,
+                            num:1,
+                            kc:kc,
+                        })).then(res => {
+                            if(res.data.data==200){
+                                this.$message.success("加入购物车成功")
+                            }else{
+                                this.$message.error("库存不足")
+                            }
+                        }).catch(error => {
+                        })
+
+                    }
+                }).catch(error => {
+                })
+            },
+
+            collectAdd(productid) {
+                axios.post('checkLogin', qs.stringify({})).then(res => {
+                    if (res.data.status == 111) {
+                        location.replace("toLogin")
+                    } else {
+                        this.sessionmember = res.data.data
+
+                        axios.post('../collect/insert', qs.stringify({
+                            memberid: this.sessionmember.id,
+                            productid: productid,
+                        })).then(res => {
+                            if (res.data.status == 121) {
+                                this.$message.error("已存在收藏记录")
+                            } else {
+                                this.$message.success("收藏成功")
+                            }
+                        }).catch(error => {
+                        })
+
+                    }
+                }).catch(error => {
+                })
+            },
+
+            gethotproductlist(){
+                axios.post('../product/selectHot', qs.stringify({
+                })).then(res => {
+                    this.hotproductlist = res.data.data
+                }).catch(error => {
+                })
+            },
+            getimgadvlist(){
+                axios.post('../imgadv/selectAll', qs.stringify({
+                })).then(res => {
+                    this.imgadvlist = res.data.data
+                }).catch(error => {
+                })
+            },
+
+            getnewslist(){
+                axios.post('../news/selectAll', qs.stringify({
+                })).then(res => {
+                    this.newslist = res.data.data
+                }).catch(error => {
+                })
+            },
+
+
+        }
+    })
+
+
+</script>
+
+<script src="assets/js/vendor/jquery-1.12.0.min.js"></script>
+<script src="assets/js/popper.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.counterup.min.js"></script>
+<script src="assets/js/waypoints.min.js"></script>
+<script src="assets/js/elevetezoom.js"></script>
+<script src="assets/js/ajax-mail.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#iframetop').load('toTop');
+        $('#iframefoot').load('toFoot');
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.MessageDAO">
+    <!-- 结果集 -->
+    <resultMap type="com.it.entity.Message" id="MessageMap">
+        <result property="id" column="id"/>
+        <result property="memberid" column="memberid"/>
+        <result property="content" column="content"/>
+        <result property="savetime" column="savetime"/>
+        <result property="hfcontent" column="hfcontent"/>
+    </resultMap>
+
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        *
+    </sql>
+
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="MessageMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        where id = #{id}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="MessageMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="MessageMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="memberid != null">
+                and memberid = #{memberid}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="savetime != null and savetime != ''">
+                and savetime = #{savetime}
+            </if>
+            <if test="hfcontent != null and hfcontent != ''">
+                and hfcontent = #{hfcontent}
+            </if>
+            <if test="key != null and key != ''">
+                and memberid in (select id from member where tname like "%"#{key}"%")
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!-- 新增所有列 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into message(id, memberid, content, savetime, hfcontent)
+        values ( #{id}, #{memberid}, #{content}, #{savetime}, #{hfcontent})
+    </insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into message(id, memberid, content, savetime, hfcontent)
+        values
+        <foreach collection="messages" item="item" index="index" separator=",">
+            (
+            #{item.id}, #{item.memberid}, #{item.content}, #{item.savetime}, #{item.hfcontent} )
+        </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update parkinglotwebsite_db.message
+        <set>
+            <if test="memberid != null">
+                memberid = #{memberid},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="savetime != null and savetime != ''">
+                savetime = #{savetime},
+            </if>
+            <if test="hfcontent != null and hfcontent != ''">
+                hfcontent = #{hfcontent},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from message where id = #{id}
+    </delete>
+
+    <!-- 总数 -->
+    <select id="count" resultType="int">
+        select count(*) from message
+    </select>
+</mapper>

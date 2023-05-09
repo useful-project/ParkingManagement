@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>后台管理系统</title>
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+    <!--dashboard calendar-->
+    <link href="css/clndr.css" rel="stylesheet">
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="js/morris-chart/morris.css">
+
+    <!--common-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+
+    <link href="../css/element_ui.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+
+
+
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+
+        .el-button--primary {
+            background-color: #424f63;
+            border-color: #424f63;
+        }
+
+        .el-button--primary:hover {
+            background-color: #5A6D81;
+            border-color: #5A6D81;
+        }
+
+        .el-button--primary:focus, .el-button--primary:hover {
+            background: #5A6D81;
+            border-color: #5A6D81;
+            color: #FFF;
+        }
+
+        form input[type=text] {
+            width: 50% !important;
+            box-shadow: none;
+        }
+
+        .el-upload__input {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body class="sticky-header" style="background: #eff0f4">
+<!--body wrapper start-->
+<div id="app">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    统计分析
+                    <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                </header>
+                <div class="panel-body">
+
+
+                    <div class="col-md-12">
+                        <!--statistics start-->
+                        <div class="row state-overview">
+                            <div class="col-md-6 col-xs-12 col-sm-6">
+                                <div  id="tx1" style="width: 100%;height:450px;">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-6">
+                                <div  id="tx2" style="width: 100%;height:450px;">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--statistics end-->
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+<script type="text/javascript" src="../axios/echarts.min.js"></script>
+
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            dataval1:[],
+            dataAxis1:[],
+
+            dataval2:[],
+            dataAxis2:[],
+
+        },
+        created() {
+            this.gettj1()
+            this.gettj2()
+
+        },
+
+        methods: {
+
+            gettj2() {
+                axios.post('../statistics/tj2', qs.stringify({})).then(response => {
+                    this.dataval2 = response.data.dataval
+                    this.dataAxis2 = response.data.dataAxis
+                    var myChart = echarts.init(document.getElementById('tx2'));
+                    option = {
+                        title: {
+                            text: '区域停车占比',
+                            // subtext: 'Fake Data',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left'
+                        },
+                        series: [
+                            {
+                                name: 'Access From',
+                                type: 'pie',
+                                radius: '50%',
+                                data: vue.dataval2,
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                },
+                                label: {
+                                    //echarts饼图内部显示百分比设置
+                                    show: true,
+                                    position: "inside", //outside 外部显示  inside 内部显示
+                                    formatter: `{d}%`,
+                                    color: "#ffffff", //颜色
+                                    fontSize: 12 //字体大小
+                                },
+
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+
+            gettj1() {
+                axios.post('../statistics/tj1',qs.stringify({
+                })).then(response =>{
+                    this.dataval1 = response.data.dataval
+                    this.dataAxis1 = response.data.dataAxis
+
+
+                    var myChart = echarts.init(document.getElementById('tx1'));
+                    option = {
+                        title: {
+                            text: '停车量统计',
+                            // subtext: 'Fake Data',
+                            left: 'center'
+                        },
+                        tooltip : {
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: vue.dataAxis1,
+                            axisLabel:{
+                                interval:0,//横轴信息全部显示
+                                rotate:-30,//-30度角倾斜显示
+                            }
+
+                        },
+                        yAxis: {
+                            type: 'value',
+                        },
+                        series: [{
+                            data: vue.dataval1,
+                            type: 'bar',
+
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true, //开启显示
+                                        position: 'top', //在上方显示
+                                        textStyle: { //数值样式
+                                            color: 'black',
+                                            fontSize: 16
+                                        }
+                                    }
+                                }
+                            }
+                        }]
+                    };
+
+
+                    myChart.setOption(option);
+
+
+
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+
+        }
+    })
+</script>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<!--easy pie chart-->
+<script src="js/easypiechart/jquery.easypiechart.js"></script>
+<script src="js/easypiechart/easypiechart-init.js"></script>
+
+<!--Sparkline Chart-->
+<script src="js/sparkline/jquery.sparkline.js"></script>
+<script src="js/sparkline/sparkline-init.js"></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+
+<!-- jQuery Flot Chart-->
+<script src="js/flot-chart/jquery.flot.js"></script>
+<script src="js/flot-chart/jquery.flot.tooltip.js"></script>
+<script src="js/flot-chart/jquery.flot.resize.js"></script>
+
+
+<!--Morris Chart-->
+<script src="js/morris-chart/morris.js"></script>
+<script src="js/morris-chart/raphael-min.js"></script>
+
+<!--Calendar-->
+<script src="js/calendar/clndr.js"></script>
+<script src="js/calendar/evnt.calendar.init.js"></script>
+<script src="js/calendar/moment-2.2.1.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+<!--common scripts for all pages-->
+<script src="js/scripts.js"></script>
+
+<!--Dashboard Charts-->
+<script src="js/dashboard-chart-init.js"></script>
+
+
+<style>
+    .copyrights {
+        text-indent: -9999px;
+        height: 0;
+        line-height: 0;
+        font-size: 0;
+        overflow: hidden;
+    }
+</style>
+<div class="copyrights" id="links20210126">
+    Collect from <a href="http://www.cssmoban.com/" title="网站模板">模板之家</a>
+    <a href="https://www.chazidian.com/" title="查字典">查字典</a>
+</div>
+</body>
+</html>

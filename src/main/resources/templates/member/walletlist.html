@@ -1,0 +1,183 @@
+﻿<!doctype html>
+<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>停车库管理系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+    <!-- all css here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/meanmenu.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="../css/element_ui.css">
+
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <style>
+        .login-form-container {
+            padding: 20px 80px;
+        }
+    </style>
+
+</head>
+<body>
+<header class="header-area">
+
+
+    <div id="iframetop"></div>
+</header>
+<div class="breadcrumb-area pt-95 pb-95 bg-img" style="background-image:url(assets/img/banner/banner-2.jpg);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>余额</h2>
+            <ul>
+                <li><a href="index">首页</a></li>
+                <li class="active">余额</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="login-register-area pt-95 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        <a class="active" data-toggle="tab" href="#lg1">
+                            <h4> 余额 </h4>
+                        </a>
+                        <!--<a data-toggle="tab" href="#lg2">-->
+                        <!--<h4> register </h4>-->
+                        <!--</a>-->
+                    </div>
+                    <div class="tab-content" id="app">
+
+                        <div id="lg1" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div style="padding: 20px 0px;text-align: center">
+                                    ￥{{mem.wallet}}
+                                </div>
+                                <div class="login-register-form">
+
+                                    <input type="text" v-model="member.wallet"  placeholder="充值金额">
+
+                                    <div class="button-box">
+                                        <div class="login-toggle-btn">
+                                            <!--<input type="checkbox">-->
+                                            <!--<label>Remember me</label>-->
+                                            <!--<a href="javascript:;" onclick="findupass()">忘记密码?</a>-->
+                                        </div>
+                                        <button type="button" @click="onSubmit"><span>充值</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer class="footer-area">
+    <div id="iframefoot"></div>
+</footer>
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            member:{
+                wallet:"",
+                id:"",
+            },
+            mem:{},
+
+        },
+        created(){
+            this.getsessionmember()
+        },
+        methods: {
+
+            getsessionmember() {
+                axios.post('checkLogin', qs.stringify({
+                })).then(result => {
+                    if(result.data.status==110){
+                        this.mem = result.data.data
+                        this.member.id = this.mem.id
+                    }else{
+                        location.replace("toLogin")
+                    }
+                }).catch(error => {
+                })
+            },
+
+            onSubmit() {
+                if(!/^[1-9]\d*$/.test(this.member.wallet)){
+                    this.$message.error("充值金额输入错误")
+                    return;
+                }
+                axios.post('../member/chongZhi', qs.stringify({
+                    wallet: this.member.wallet,
+                    id: this.member.id,
+                })).then(result => {
+                    this.$message.success({
+                        offset: 100,
+                        message: "充值成功！"
+                    })
+                    this.member.wallet = ""
+                    this.getsessionmember()
+                }).catch(error => {
+                })
+            },
+
+
+        }
+    })
+
+
+</script>
+
+<!-- all js here -->
+<script src="assets/js/vendor/jquery-1.12.0.min.js"></script>
+<script src="assets/js/popper.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.counterup.min.js"></script>
+<script src="assets/js/waypoints.min.js"></script>
+<script src="assets/js/elevetezoom.js"></script>
+<script src="assets/js/ajax-mail.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="../layer/layer.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#iframetop').load('toTop');
+        $('#iframefoot').load('toFoot');
+    });
+
+</script>
+
+</body>
+</html>

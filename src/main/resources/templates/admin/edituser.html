@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>后台管理系统</title>
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+    <!--dashboard calendar-->
+    <link href="css/clndr.css" rel="stylesheet">
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="js/morris-chart/morris.css">
+
+    <!--common-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+
+    <link href="../css/element_ui.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+
+
+
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+
+        .el-button--primary {
+            background-color: #424f63;
+            border-color: #424f63;
+        }
+
+        .el-button--primary:hover {
+            background-color: #5A6D81;
+            border-color: #5A6D81;
+        }
+
+        .el-button--primary:focus, .el-button--primary:hover {
+            background: #5A6D81;
+            border-color: #5A6D81;
+            color: #FFF;
+        }
+
+        form input[type=text] {
+            width: 50% !important;
+            box-shadow: none;
+        }
+
+        .el-upload__input {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body class="sticky-header" style="background: #eff0f4">
+<!--body wrapper start-->
+<div id="app">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    个人信息
+                    <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                </header>
+                <div class="panel-body">
+
+
+                    <el-form ref="user" :rules="rules" :model="user" label-width="80px">
+
+
+                        <el-form-item prop="filename" label="图片">
+
+                            <el-upload
+                                    class="avatar-uploader"
+                                    action="../util/uploadImg"
+                                    :show-file-list="false"
+                                    :on-success="handleAvatarSuccess"
+                                    :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+
+                        </el-form-item>
+
+
+                        <el-form-item prop="uname" label="登录名">
+                            <el-input v-model="user.uname"  readonly placeholder="登录名"></el-input>
+                        </el-form-item>
+
+                        <el-form-item prop="upass" label="密码" >
+                            <el-input v-model="user.upass" type="password" placeholder="密码" style="width:50%"></el-input>
+                        </el-form-item>
+
+
+                        <el-form-item prop="tname" label="姓名">
+                            <el-input v-model="user.tname" placeholder="姓名"></el-input>
+                        </el-form-item>
+
+
+                        <el-form-item prop="tel" label="电话">
+                            <el-input v-model="user.tel" placeholder="电话"></el-input>
+                        </el-form-item>
+
+                        <el-form-item prop="email" label="邮箱">
+                            <el-input v-model="user.email" placeholder="邮箱"></el-input>
+                        </el-form-item>
+
+
+
+
+                        <el-form-item>
+                            <el-button type="primary" @click="onSubmit">提交</el-button>
+                            <!--<el-button>取消</el-button>-->
+                        </el-form-item>
+                    </el-form>
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            user: {
+                uname: '',
+                upass: '',
+                tname: '',
+                tel: '',
+                email: '',
+                filename: '',
+                id: "",
+            },
+            imageUrl: "",
+            rules: {
+                filename: [{required: true, message: '请上传图片', trigger: 'blur'}],
+                uname: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+                upass: [{required: true, message: '请输入密码', trigger: 'blur'}],
+                tname: [{required: true, message: '请输入姓名', trigger: 'blur'}],
+                tel: [{required: true, message: '请输入电话', pattern: /^1[3456789]\d{9}$/, trigger: 'blur'}],
+                email: [{required: true, message: '请输入正确的邮箱', pattern: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, trigger: 'blur'}],
+
+            }
+
+        },
+        created() {
+            this.getadmin()
+        },
+
+        methods: {
+            getadmin() {
+                axios.post('user/checkLogin', qs.stringify({
+                })).then(result => {
+                    this.user = result.data.data
+                    this.imageUrl = "../upload/"+this.user.filename
+                }).catch(error => {
+                })
+            },
+            onSubmit() {
+
+                this.$refs.user.validate((valid) => {
+                    if (valid) {
+                        axios.post('user/update', qs.stringify({
+                            filename: this.user.filename,
+                            uname: this.user.uname,
+                            upass: this.user.upass,
+                            tname: this.user.tname,
+                            tel: this.user.tel,
+                            email: this.user.email,
+                            id: this.user.id,
+                        })).then(result => {
+                            this.$message.success('编辑成功');
+                        }).catch(error => {
+                        })
+
+                    } else {
+                    }
+                })
+            },
+
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+                this.user.filename = res.data.src
+            },
+            beforeAvatarUpload(file) {
+
+                let isExist = true;
+                const imgFormat = ['image/jpeg', 'image/png'];
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!imgFormat.includes(file.type)) {
+                    isExist = false;
+                }
+
+                if (!isExist) {
+                    this.$message.error('上传头像图片格式不符合!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return file.type && isLt2M;
+            },
+
+        }
+    })
+</script>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<!--easy pie chart-->
+<script src="js/easypiechart/jquery.easypiechart.js"></script>
+<script src="js/easypiechart/easypiechart-init.js"></script>
+
+<!--Sparkline Chart-->
+<script src="js/sparkline/jquery.sparkline.js"></script>
+<script src="js/sparkline/sparkline-init.js"></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+
+<!-- jQuery Flot Chart-->
+<script src="js/flot-chart/jquery.flot.js"></script>
+<script src="js/flot-chart/jquery.flot.tooltip.js"></script>
+<script src="js/flot-chart/jquery.flot.resize.js"></script>
+
+
+<!--Morris Chart-->
+<script src="js/morris-chart/morris.js"></script>
+<script src="js/morris-chart/raphael-min.js"></script>
+
+<!--Calendar-->
+<script src="js/calendar/clndr.js"></script>
+<script src="js/calendar/evnt.calendar.init.js"></script>
+<script src="js/calendar/moment-2.2.1.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+<!--common scripts for all pages-->
+<script src="js/scripts.js"></script>
+
+<!--Dashboard Charts-->
+<script src="js/dashboard-chart-init.js"></script>
+
+
+<style>
+    .copyrights {
+        text-indent: -9999px;
+        height: 0;
+        line-height: 0;
+        font-size: 0;
+        overflow: hidden;
+    }
+</style>
+<div class="copyrights" id="links20210126">
+    Collect from <a href="http://www.cssmoban.com/" title="网站模板">模板之家</a>
+    <a href="https://www.chazidian.com/" title="查字典">查字典</a>
+</div>
+</body>
+</html>

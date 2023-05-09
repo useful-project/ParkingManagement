@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>后台管理系统</title>
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+    <!--dashboard calendar-->
+    <link href="css/clndr.css" rel="stylesheet">
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="js/morris-chart/morris.css">
+
+    <!--common-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+
+    <link href="../css/element_ui.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+
+
+
+    <style>
+        .el-input__inner{
+            height: 28px;
+            font-size: 12px;
+        }
+
+        .el-row{
+            margin-bottom: 10px;
+        }
+
+        .el-pagination.is-background .el-pager li:not(.disabled).active {
+            background-color: #424f63;
+            color: #FFF;
+        }
+
+        .el-pager li:hover {
+            color: #424f63 !important;
+        }
+
+        .el-button--primary {
+            background-color: #424f63;
+            border-color: #424f63;
+        }
+
+        .el-button--primary:hover {
+            background-color: #5A6D81;
+            border-color: #5A6D81;
+        }
+
+        .el-button--primary:focus, .el-button--primary:hover {
+            background: #5A6D81;
+            border-color: #5A6D81;
+            color: #FFF;
+        }
+    </style>
+
+</head>
+
+<body class="sticky-header" style="background: #eff0f4">
+<!--body wrapper start-->
+<div id="app">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    焦点图管理
+                    <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                </header>
+                <div class="panel-body">
+
+
+                    <el-row :gutter="20">
+                        <el-button size="mini" icon="el-icon-circle-plus" type="primary" @click="add">新增</el-button>
+
+                    </el-row>
+                    <template>
+                        <el-table
+                                :data="tableData"
+                                border
+                                style="width: 100%">
+
+
+                            <el-table-column
+                                    label="图片">
+                                <template slot-scope="scope">
+                                    <el-popover placement="top-start" title="" trigger="hover">
+                                        <img :src="['../upload/'+scope.row.filename]" alt="" style="width: 650px;height: 350px">
+                                        <img slot="reference" :src="['../upload/'+scope.row.filename]" style="width: 260px;height: 160px">
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="url"
+                                    label="链接地址">
+                            </el-table-column>
+
+
+                            <el-table-column
+                                    width="100px"
+                                    label="操作"
+                            >
+
+                                <template slot-scope="scope">
+
+                                    <el-link @click="handleEdit(scope.$index, scope.row,tableData)"><i class="el-icon-edit"></i></el-link>
+
+                                    <el-link @click="handleDelete(scope.$index, scope.row,tableData)"><i class="el-icon-delete"></i></el-link>
+
+
+                                </template>
+                            </el-table-column>
+
+
+                        </el-table>
+
+                        <div style="text-align: center">
+                            <el-pagination v-if="tableData.length>0" @current-change="changePage"
+                                           background
+                                           layout="prev, pager, next"
+                                           :page-size="pageSize"
+                                           :current-page="pageNum"
+                                           :total="total">
+                            </el-pagination>
+                        </div>
+
+
+                    </template>
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            key:"",
+            tableData: [],
+            pageNum: 1, //设置首页页码
+            pageSize: 10,  //设置一页显示的条数
+            total: 0,    //总条数
+            pages: 1 //一共多少页
+        },
+        created() {
+            this.getimgadvlist()
+        },
+        methods: {
+            add() {
+                location.replace("toImgadvAdd?ranparam="+new Date())
+            },
+            getimgadvlist() {
+                axios.post('../imgadv/selectPage', qs.stringify({
+                    start: this.pageNum,
+                    limit: this.pageSize,
+                })).then(res => {
+                    this.total = res.data.data.totalSize
+                    this.tableData = res.data.data.content
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+            changePage(value) {
+                this.pageNum = value
+                this.getimgadvlist()
+            },
+            handleDelete(index, rows, tableData) {
+                tableData.splice(index, 1);
+                axios.post('../imgadv/delete', qs.stringify({
+                    id: rows.id
+                })).then(res => {
+                }).catch(error => {
+                    console.log(error);
+                })
+
+            },
+            handleEdit(index, rows, tableData) {
+                location.replace("toImgadvEdit?id="+rows.id+"&ranparam="+new Date())
+            },
+
+        }
+    })
+
+</script>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<!--easy pie chart-->
+<script src="js/easypiechart/jquery.easypiechart.js"></script>
+<script src="js/easypiechart/easypiechart-init.js"></script>
+
+<!--Sparkline Chart-->
+<script src="js/sparkline/jquery.sparkline.js"></script>
+<script src="js/sparkline/sparkline-init.js"></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+
+<!-- jQuery Flot Chart-->
+<script src="js/flot-chart/jquery.flot.js"></script>
+<script src="js/flot-chart/jquery.flot.tooltip.js"></script>
+<script src="js/flot-chart/jquery.flot.resize.js"></script>
+
+
+<!--Morris Chart-->
+<script src="js/morris-chart/morris.js"></script>
+<script src="js/morris-chart/raphael-min.js"></script>
+
+<!--Calendar-->
+<script src="js/calendar/clndr.js"></script>
+<script src="js/calendar/evnt.calendar.init.js"></script>
+<script src="js/calendar/moment-2.2.1.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+<!--common scripts for all pages-->
+<script src="js/scripts.js"></script>
+
+<!--Dashboard Charts-->
+<script src="js/dashboard-chart-init.js"></script>
+
+
+<style>
+    .copyrights {
+        text-indent: -9999px;
+        height: 0;
+        line-height: 0;
+        font-size: 0;
+        overflow: hidden;
+    }
+</style>
+<div class="copyrights" id="links20210126">
+    Collect from <a href="http://www.cssmoban.com/" title="网站模板">模板之家</a>
+    <a href="https://www.chazidian.com/" title="查字典">查字典</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>后台管理系统</title>
+
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <link href="../css/element_ui.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="login-body">
+
+<div class="container" id="app">
+
+    <form class="form-signin">
+        <div class="form-signin-heading text-center">
+            <h1 class="sign-title">登录</h1>
+        </div>
+        <div class="login-wrap">
+            <input type="text" v-model="user.uname" class="form-control" placeholder="登录名" autofocus>
+            <input type="password" v-model="user.upass" class="form-control" placeholder="密码">
+
+            <a class="btn btn-lg btn-login btn-block"  @click="login">
+              登录
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            user: {
+                uname: "",
+                upass: "",
+            }
+        },
+
+        methods: {
+            login() {
+                if (this.user.uname == "") {
+                    this.$message.error('登录名不能为空');
+                    return false;
+                }
+                if (this.user.upass == "") {
+                    this.$message.error('密码不能为空');
+                    return false;
+                }
+                axios.post('user/login', qs.stringify({
+                    uname: this.user.uname,
+                    upass: this.user.upass,
+                })).then(res => {
+                    if (res.data.status == 111) {
+                        this.$message.error('登录名或密码错误');
+                        this.user.uname = ""
+                        this.user.upass = ""
+                    } else {
+                        location.replace("toIndex")
+                    }
+
+                }).catch(error => {
+                })
+
+
+            }
+
+
+        }
+    })
+
+
+</script>
+
+</body>
+</html>

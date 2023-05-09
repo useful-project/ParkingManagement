@@ -1,0 +1,420 @@
+﻿<!doctype html>
+<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>停车库管理系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+    <!-- all css here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/meanmenu.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="../css/element_ui.css">
+
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+
+
+    <style>
+
+        .search-carport {
+            /*padding: 0px 20px 20px 20px;*/
+            display: grid;
+            /* grid-gap: 30px 50px */
+            /*grid-column-gap:5px;*/
+            grid-row-gap: 20px;
+            /* 一行放两列、两个auto */
+            grid-template-columns: auto auto;
+            align-items: center;
+            padding: 0px 15px 15px 15px;
+        }
+
+        .el-pagination.is-background .el-pager li:not(.disabled).active {
+            background-color: #7e4c4f;
+            color: #FFF;
+        }
+
+        .el-pager li:hover {
+            color: #7e4c4f !important;
+        }
+
+        .el-button--primary {
+            background-color: #7e4c4f;
+            border-color: #7e4c4f;
+        }
+
+        .el-button--primary:hover {
+            background-color: #3e2c2c;
+            border-color: #3e2c2c;
+        }
+
+        .el-button--primary:focus, .el-button--primary:hover {
+            background: #3e2c2c;
+            border-color: #3e2c2c;
+            color: #FFF;
+        }
+
+        .product-img:hover {
+            background: #eeeeee !important;
+        }
+
+        .my-skin .layui-layer-btn a:first-child {
+            background-color: #7e4c4f;
+            border: 1px solid #7e4c4f;
+            color: white;
+
+        }
+
+        .el-dialog__header{
+            border-bottom: 1px solid #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+<header class="header-area">
+
+
+    <div id="iframetop"></div>
+</header>
+
+<div id="app">
+
+    <div class="breadcrumb-area pt-95 pb-95 bg-img" style="background-image:url(assets/img/banner/banner-2.jpg);">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <h2>停车场</h2>
+                <ul>
+                    <li><span style="color: white;font-weight: bold">剩余:</span><span
+                            style="color: white;font-weight: bold;margin-left: 20px;margin-top: 20px;">{{surpluslist.length}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="blog-area pb-70 pt-50">
+        <div class="container">
+            <div class="row search-carport">
+                <div>
+                    <el-row :gutter="20">
+                        <el-col :span="8">
+                            <div class="grid-content bg-purple">
+                                <el-input v-model="key1" placeholder="车牌号或车主姓名" style="font-size:12px;"></el-input>
+                            </div>
+                        </el-col>
+                        <el-button icon="el-icon-search" type="primary" @click="getcarportlist('')"></el-button>
+                    </el-row>
+                </div>
+                <div>
+                    <el-button @click="getcarportlist('')" type="primary">全部</el-button>
+                    <el-button @click="getcarportlist(category.id)" v-for="category in categorylist" type="primary">
+                        {{category.name}}
+                    </el-button>
+                </div>
+            </div>
+            <div class="row">
+
+                <div v-for="carport in tableData" class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
+                    <div class="product-wrapper mb-10" style="height: 200px;">
+
+                        <el-tooltip class="item" effect="dark" :disabled="carport.status!='空'?false:true"  placement="top-start">
+                            <div v-html="carport.content" slot="content"></div>
+                            <div class="product-img" style="border:1px solid #7e4c4f;height: 100%;cursor: pointer;"
+                                 @click="add(carport.id,carport.status)">
+                                <h4 style="text-align: center;line-height: 30px;border-bottom: 1px solid  #7e4c4f;font-size: 18px;">
+                                    {{carport.category.name}}-{{carport.name}}</h4>
+                                <!--<div th:id="'carport'+${carport.id}"></div>-->
+                                <h4 style="text-align: center;position: absolute;margin-top:10%;margin-left: 45% "></h4>
+                                <a v-if="carport.status!='空'" th:href="|javascript:;|">
+                                    <img src="../upload/car.png" alt="">
+                                </a>
+                            </div>
+                        </el-tooltip>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div style="text-align: center">
+            <el-pagination v-if="tableData.length>0" @current-change="changePage"
+                           background
+                           layout="prev, pager, next"
+                           :page-size="pageSize"
+                           :current-page="pageNum"
+                           :total="total">
+            </el-pagination>
+        </div>
+
+    </div>
+
+
+    <el-dialog :title="titleDialog" :visible.sync="dialogFormVisible">
+        <el-form ref="stoprecord" :model="stoprecord" :rules="rules">
+
+            <el-form-item label="车牌号" prop="carno" :label-width="formLabelWidth">
+                <el-input v-model="stoprecord.carno" autocomplete="off"></el-input>
+            </el-form-item>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="onSubmit">确 定</el-button>
+        </div>
+    </el-dialog>
+
+
+</div>
+
+
+<footer class="footer-area">
+    <div id="iframefoot"></div>
+</footer>
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            key1: "",
+            categoryid: "",
+            tableData: [],
+            pageNum: 1, //设置首页页码
+            pageSize: 60,  //设置一页显示的条数
+            total: 0,    //总条数
+            pages: 1, //一共多少页
+            categorylist: [],
+            surpluslist: [],//剩余数量
+
+
+            disabled:true,
+            sessionmember:{},
+            titleDialog: "停车",
+            dialogFormVisible: false,
+            formLabelWidth: "100px",
+            stoprecord: {
+                carno: "",
+                carportid:"",
+            },
+            rules: {
+                carno: [{required: true, message: '请输入车牌号', trigger: 'blur'}],
+            },
+
+
+        },
+        created() {
+            this.getcarportlist('')
+            this.getcategorylist()
+            this.getsurpluslist()//剩余数量
+
+        },
+
+        methods: {
+
+            onSubmit() {
+                this.$refs.stoprecord.validate((valid) => {
+                    if (valid) {
+                        axios.post('../stoprecord/insert', qs.stringify({
+                            carno: this.stoprecord.carno,
+                            carportid: this.stoprecord.carportid,
+                            memberid: this.sessionmember.id,
+                        })).then(result => {
+                            if(result.data.status==121){
+                                this.$message.error("车辆已入库，车牌号输入有误")
+                                this.dialogFormVisible = false
+                            }else{
+                                this.dialogFormVisible = false
+                                this.getcarportlist(this.categoryid)
+                                this.getsurpluslist()
+                                this.$message.success("车辆已入库")
+                            }
+                        }).catch(error => {
+                        })
+                    }
+                })
+            },
+
+
+            add(carportid,status) {
+                if (status == "空") {
+                    axios.post('checkLogin', qs.stringify({
+                    })).then(res => {
+                        if(res.data.status==111){
+                            location.replace("toLogin")
+                        }else{
+                            this.sessionmember = res.data.data
+                            this.dialogFormVisible = true
+                            this.stoprecord.carportid = carportid
+                            this.stoprecord.carno = ""
+                        }
+                    }).catch(error => {
+                    })
+                }else{
+
+                    axios.post('checkLogin', qs.stringify({
+                    })).then(res => {
+                        if(res.data.status==111){
+                            location.replace("toLogin")
+                        }else{
+                            this.sessionmember = res.data.data
+                            this.stoprecord.carportid = carportid
+                            this.$confirm('是否离场?', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning'
+                            }).then(() => {
+
+                                axios.post('../stoprecord/leaveStop', qs.stringify({
+                                    carportid:this.stoprecord.carportid,
+                                    memberid:this.sessionmember.id,
+                                    status:"在库",
+                                })).then(res => {
+                                    if(res.data.data==200){
+                                        this.$message.error("已离场，欢迎下次光临！")
+                                        this.getcarportlist(this.categoryid);
+                                        this.getsurpluslist()
+                                    }else if(res.data.data==300){
+                                        this.$message.error("余额不足，请充值")
+                                    }else{
+                                        this.$message.error("权限不够，请操作自己的车辆")
+                                    }
+                                }).catch(error => {
+                                })
+
+                            }).catch(() => {
+
+                            });
+
+                        }
+                    }).catch(error => {
+                    })
+                }
+            },
+
+            getsurpluslist() {
+                axios.post('../carport/selectAll', qs.stringify({
+                    status: "空",
+                })).then(res => {
+                    this.surpluslist = res.data.data
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+            getcategorylist() {
+                axios.post('../category/selectAll', qs.stringify({})).then(res => {
+                    this.categorylist = res.data.data
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+            getcarportlist(categoryid) {
+                this.categoryid = categoryid,
+                    axios.post('../carport/selectPage', qs.stringify({
+                        key1: this.key1,
+                        categoryid: this.categoryid,
+                        start: this.pageNum,
+                        limit: this.pageSize
+                    })).then(res => {
+                        this.total = res.data.data.totalSize
+                        this.tableData = res.data.data.content
+                    }).catch(error => {
+                        console.log(error);
+                    })
+            },
+            changePage(value) {
+                this.pageNum = value
+                this.getcarportlist(this.categoryid)
+            },
+
+
+        }
+    })
+
+
+</script>
+
+<!-- all js here -->
+<script src="assets/js/vendor/jquery-1.12.0.min.js"></script>
+<script src="assets/js/popper.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.counterup.min.js"></script>
+<script src="assets/js/waypoints.min.js"></script>
+<script src="assets/js/elevetezoom.js"></script>
+<script src="assets/js/ajax-mail.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#iframetop').load('toTop');
+        $('#iframefoot').load('toFoot');
+    });
+
+
+    /**
+     * 验证码
+     * @param {Object} o 验证码长度
+     */
+    $.fn.code_Obj = function (o) {
+        var _this = $(this);
+        var options = {
+            code_l: o.codeLength,//验证码长度
+            codeChars: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+            ],
+            codeColors: ['#f44336', '#009688', '#cddc39', '#03a9f4', '#9c27b0', '#5e4444', '#9ebf9f', '#ffc8c4', '#2b4754', '#b4ced9', '#835f53', '#aa677e'],
+            code_Init: function () {
+                var code = "";
+                var codeColor = "";
+                var checkCode = _this.find("#data_code");
+                for (var i = 0; i < this.code_l; i++) {
+                    var charNum = Math.floor(Math.random() * 52);
+                    code += this.codeChars[charNum];
+                }
+                for (var i = 0; i < this.codeColors.length; i++) {
+                    var charNum = Math.floor(Math.random() * 12);
+                    codeColor = this.codeColors[charNum];
+                }
+                console.log(code);
+                if (checkCode) {
+                    checkCode.css('color', codeColor);
+                    checkCode.className = "code";
+                    checkCode.text(code);
+                    checkCode.attr('data-value', code.toLowerCase());
+                    $("#hiddenyzm").attr('value', code.toLowerCase());
+                }
+            }
+        };
+
+        options.code_Init();//初始化验证码
+        _this.find("#data_code").bind('click', function () {
+            options.code_Init();
+        });
+    };
+
+    $('#check-code').code_Obj({
+        codeLength: 6
+    });
+</script>
+
+</body>
+</html>

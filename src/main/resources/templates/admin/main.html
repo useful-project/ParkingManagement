@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>后台管理系统</title>
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+    <!--dashboard calendar-->
+    <link href="css/clndr.css" rel="stylesheet">
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="js/morris-chart/morris.css">
+
+    <!--common-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <link href="../css/element_ui.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header" style="background: #eff0f4">
+<!--body wrapper start-->
+<div id="app">
+    <div class="row">
+        <div class="col-md-12">
+            <!--statistics start-->
+            <div class="row state-overview">
+                <div class="col-md-3 col-xs-12 col-sm-3">
+                    <div class="panel purple">
+                        <div class="symbol">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="state-value">
+                            <div class="value">{{memberlist.length}}</div>
+                            <div class="title">注册用户</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12 col-sm-3">
+                    <div class="panel blue">
+                        <div class="symbol">
+                            <i class="fa fa-tag"></i>
+                        </div>
+                        <div class="state-value">
+                            <div class="value">{{newslist.length}}</div>
+                            <div class="title"> 公告</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12 col-sm-3">
+                    <div class="panel red">
+                        <div class="symbol" style="font-size:50px">
+                           p
+                        </div>
+                        <div class="state-value">
+                            <div class="value">{{carportlist.length}}</div>
+                            <div class="title">车位</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-12 col-sm-3">
+                    <div class="panel green">
+                        <div class="symbol">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="state-value">
+                            <div class="value">{{currentlist.length}}</div>
+                            <div class="title"> 入库</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--statistics end-->
+        </div>
+        <!--<div class="col-md-6">-->
+            <!--&lt;!&ndash;more statistics box start&ndash;&gt;-->
+            <!--<div class="panel deep-purple-box">-->
+                <!--<div class="panel-body">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-7 col-sm-7 col-xs-7">-->
+                            <!--<div id="graph-donut" class="revenue-graph"></div>-->
+
+                        <!--</div>-->
+                        <!--<div class="col-md-5 col-sm-5 col-xs-5">-->
+                            <!--<ul class="bar-legend">-->
+                                <!--<li><span class="blue"></span> Open rate</li>-->
+                                <!--<li><span class="green"></span> Click rate</li>-->
+                                <!--<li><span class="purple"></span> Share rate</li>-->
+                                <!--<li><span class="red"></span> Unsubscribed rate</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;more statistics box end&ndash;&gt;-->
+        <!--</div>-->
+        <!--<div class="col-md-6">-->
+            <!--&lt;!&ndash;more statistics box start&ndash;&gt;-->
+            <!--<div class="panel deep-purple-box">-->
+                <!--<div class="panel-body">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-7 col-sm-7 col-xs-7">-->
+                            <!--<div id="graph-donut" class="revenue-graph"></div>-->
+
+                        <!--</div>-->
+                        <!--<div class="col-md-5 col-sm-5 col-xs-5">-->
+                            <!--<ul class="bar-legend">-->
+                                <!--<li><span class="blue"></span> Open rate</li>-->
+                                <!--<li><span class="green"></span> Click rate</li>-->
+                                <!--<li><span class="purple"></span> Share rate</li>-->
+                                <!--<li><span class="red"></span> Unsubscribed rate</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;more statistics box end&ndash;&gt;-->
+        <!--</div>-->
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="panel-body">
+
+                    <h2>系统日志</h2>
+
+                    <div style="padding: 10px;">
+
+                        <el-row style="padding-bottom: 10px;display: flex">
+                            <el-button size="mini" icon="el-icon-delete" type="danger" @click="handledelete">清空</el-button>
+                        </el-row>
+
+
+                        <template>
+                            <el-table
+                                    :data="tableData"
+                                    style="width: 100%">
+                                <el-table-column
+                                        prop="name"
+                                        label="操作员"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="content"
+                                        label="操作内容"
+                                >
+                                </el-table-column>
+                                <el-table-column
+                                        prop="addr"
+                                        label="IP地址"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="savetime"
+                                        label="时间"
+                                        width="180">
+                                </el-table-column>
+                            </el-table>
+
+                            <el-pagination v-if="tableData.length>0" @current-change="changePage"
+                                           background
+                                           layout="prev, pager, next"
+                                           :page-size="pageSize"
+                                           :current-page="pageNum"
+                                           :total="total">
+                            </el-pagination>
+
+
+                        </template>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            key: "",
+            tableData: [],
+            pageNum: 1, //设置首页页码
+            pageSize: 10,  //设置一页显示的条数
+            total: 0,    //总条数
+            pages: 1,//一共多少页
+
+            memberlist:[],
+            newslist:[],
+            carportlist:[],
+            currentlist:[],
+
+            admin:{},
+        },
+        created() {
+            this.getadmin()
+
+        },
+        methods: {
+            getadmin(){
+                axios.post('user/checkLogin', qs.stringify({
+                })).then(res => {
+                    if (res.data.status == 111) {
+                        location.replace("login")
+                    } else {
+                        this.admin = res.data.data
+
+                        this.getloginiplist()
+                        this.getmemberlist()
+                        this.getnewslist()
+                        this.getcarportlist()
+                        this.getcurrentlist()
+                    }
+
+                }).catch(error => {
+                })
+            },
+
+            getcurrentlist(){
+                axios.post('../carport/selectAll', qs.stringify({
+                    status:"满"
+                })).then(res => {
+                    this.currentlist = res.data.data
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+
+            getcarportlist(){
+                axios.post('../carport/selectAll', qs.stringify({
+                })).then(res => {
+                    this.carportlist = res.data.data
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+            getnewslist(){
+                axios.post('../news/selectAll', qs.stringify({
+                })).then(res => {
+                    this.newslist = res.data.data
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+
+            getmemberlist(){
+                axios.post('../member/selectAll', qs.stringify({
+                    audit:"已通过"
+                })).then(res => {
+                    this.memberlist = res.data.data
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+            getloginiplist() {
+                axios.post('loginip/selectPage', qs.stringify({
+                    start: this.pageNum,
+                    limit: this.pageSize
+                })).then(res => {
+                    this.total = res.data.data.totalSize
+                    this.tableData = res.data.data.content
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+            changePage(value) {
+                this.pageNum = value
+                this.getloginiplist()
+            },
+            handledelete(index, rows, tableData) {
+                this.tableData = [],
+                    axios.post('loginip/delete', qs.stringify({})).then(res => {
+                        if (res.data.data == 401) {
+                            location.replace("toUnAuthor")
+                        } else {
+                            this.getloginiplist()
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    })
+
+            },
+        }
+    })
+
+</script>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<!--easy pie chart-->
+<script src="js/easypiechart/jquery.easypiechart.js"></script>
+<script src="js/easypiechart/easypiechart-init.js"></script>
+
+<!--Sparkline Chart-->
+<script src="js/sparkline/jquery.sparkline.js"></script>
+<script src="js/sparkline/sparkline-init.js"></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+
+<!-- jQuery Flot Chart-->
+<script src="js/flot-chart/jquery.flot.js"></script>
+<script src="js/flot-chart/jquery.flot.tooltip.js"></script>
+<script src="js/flot-chart/jquery.flot.resize.js"></script>
+
+
+<!--Morris Chart-->
+<script src="js/morris-chart/morris.js"></script>
+<script src="js/morris-chart/raphael-min.js"></script>
+
+<!--Calendar-->
+<script src="js/calendar/clndr.js"></script>
+<script src="js/calendar/evnt.calendar.init.js"></script>
+<script src="js/calendar/moment-2.2.1.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+<!--common scripts for all pages-->
+<script src="js/scripts.js"></script>
+
+<!--Dashboard Charts-->
+<script src="js/dashboard-chart-init.js"></script>
+
+
+<style>
+    .copyrights {
+        text-indent: -9999px;
+        height: 0;
+        line-height: 0;
+        font-size: 0;
+        overflow: hidden;
+    }
+</style>
+<div class="copyrights" id="links20210126">
+    Collect from <a href="http://www.cssmoban.com/" title="网站模板">模板之家</a>
+    <a href="https://www.chazidian.com/" title="查字典">查字典</a>
+</div>
+</body>
+</html>

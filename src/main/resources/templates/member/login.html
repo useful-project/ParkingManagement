@@ -1,0 +1,258 @@
+﻿<!doctype html>
+<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>停车库管理系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+    <!-- all css here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/meanmenu.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="../css/element_ui.css">
+
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+
+
+    <style>
+        /*验证码*/
+
+        .upload-awrp {
+            overflow: hidden;
+            margin: 120px 0;
+        }
+
+        .code {
+            font-family: Arial;
+            font-style: italic;
+            font-size: 15px;
+            border: 0;
+            padding: 0px 10px 0px 10px;
+            letter-spacing: 3px;
+            font-weight: bolder;
+            float: left;
+            cursor: pointer;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #DDDDDD;
+            margin-left: -1px;
+        }
+    </style>
+</head>
+<body>
+<header class="header-area">
+
+
+    <div id="iframetop"></div>
+</header>
+<div class="breadcrumb-area pt-95 pb-95 bg-img" style="background-image:url(assets/img/banner/banner-2.jpg);">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>登录</h2>
+            <ul>
+                <li><a href="index">首页</a></li>
+                <li class="active">登录</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="login-register-area pt-95 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <div class="login-register-tab-list nav">
+                        <a class="active" data-toggle="tab" href="#lg1">
+                            <h4> 登录 </h4>
+                        </a>
+                        <!--<a data-toggle="tab" href="#lg2">-->
+                        <!--<h4> register </h4>-->
+                        <!--</a>-->
+                    </div>
+                    <div class="tab-content" id="app">
+                        <div id="lg1" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    <input type="text" v-model="member.uname" id="uname" placeholder="登录名" required
+                                           oninvalid="setCustomValidity('登录名不能为空')"
+                                           oninput="setCustomValidity('');">
+                                    <input type="password" v-model="member.upass" id="upass" placeholder="密码" required
+                                           oninvalid="setCustomValidity('密码不能为空')" oninput="setCustomValidity('');">
+
+                                    <div style="display: flex">
+                                        <input type="text" id="yzm" v-model="yzm" placeholder="验证码" required
+                                               oninvalid="setCustomValidity('验证码不能为空')"
+                                               oninput="setCustomValidity('');" style="width: 81.8%">
+                                        <div id="check-code" style="overflow: hidden;">
+                                            <div class="code" id="data_code"></div>
+                                            <input type="hidden" value="" name="hiddenyzm" id="hiddenyzm">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="button-box">
+                                        <div class="login-toggle-btn">
+                                            <!--<input type="checkbox">-->
+                                            <!--<label>Remember me</label>-->
+                                            <!--<a href="javascript:;" onclick="findupass()">忘记密码?</a>-->
+                                        </div>
+                                        <button type="button" @click="onSubmit"><span>登录</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer class="footer-area">
+    <div id="iframefoot"></div>
+</footer>
+
+
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../axios/element_ui.js"></script>
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            member:{
+                uname:"",
+                upass:"",
+            },
+            yzm:"",
+        },
+        methods: {
+            onSubmit() {
+                var hiddenyzm = $("#hiddenyzm").val()
+                if (this.member.uname == "") {
+                    this.$message.error("请输入登录名")
+                    return;
+                }
+                if (this.member.upass == "") {
+                    this.$message.error("请输入密码")
+                    return;
+                }
+                if (this.yzm == "") {
+                    this.$message.error("请输入验证码")
+                    return;
+                }
+
+                if (this.yzm != hiddenyzm) {
+                    this.$message.error("验证码输入错误")
+                    return;
+                }
+                axios.post('Login', qs.stringify({
+                    uname: this.member.uname,
+                    upass: this.member.upass,
+                })).then(res => {
+                    if(res.data.data==400){
+                        this.$message.error("登录名或密码错误")
+                    }else if(res.data.data==200){
+                        location.replace("index")
+                    }else if(res.data.data==300){
+                        this.$message.error("未通过审核")
+                    }else{
+                        this.$message.error("帐号冻结")
+                    }
+                })
+            },
+
+
+        }
+    })
+
+
+</script>
+
+<!-- all js here -->
+<script src="assets/js/vendor/jquery-1.12.0.min.js"></script>
+<script src="assets/js/popper.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.counterup.min.js"></script>
+<script src="assets/js/waypoints.min.js"></script>
+<script src="assets/js/elevetezoom.js"></script>
+<script src="assets/js/ajax-mail.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="../layer/layer.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#iframetop').load('toTop');
+        $('#iframefoot').load('toFoot');
+    });
+
+
+    /**
+     * 验证码
+     * @param {Object} o 验证码长度
+     */
+    $.fn.code_Obj = function(o) {
+        var _this = $(this);
+        var options = {
+            code_l: o.codeLength,//验证码长度
+            codeChars: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+            ],
+            codeColors: ['#f44336', '#009688', '#cddc39', '#03a9f4', '#9c27b0', '#5e4444', '#9ebf9f', '#ffc8c4', '#2b4754', '#b4ced9', '#835f53', '#aa677e'],
+            code_Init: function() {
+                var code = "";
+                var codeColor = "";
+                var checkCode = _this.find("#data_code");
+                for(var i = 0; i < this.code_l; i++) {
+                    var charNum = Math.floor(Math.random() * 52);
+                    code += this.codeChars[charNum];
+                }
+                for(var i = 0; i < this.codeColors.length; i++) {
+                    var charNum = Math.floor(Math.random() * 12);
+                    codeColor = this.codeColors[charNum];
+                }
+                console.log(code);
+                if(checkCode) {
+                    checkCode.css('color', codeColor);
+                    checkCode.className = "code";
+                    checkCode.text(code);
+                    checkCode.attr('data-value', code.toLowerCase());
+                    $("#hiddenyzm").attr('value', code.toLowerCase());
+                }
+            }
+        };
+
+        options.code_Init();//初始化验证码
+        _this.find("#data_code").bind('click', function() {
+            options.code_Init();
+        });
+    };
+
+    $('#check-code').code_Obj({
+        codeLength: 6
+    });
+</script>
+
+</body>
+</html>
